@@ -26,16 +26,3 @@ jobs:
 
       - name: Build
         run: npm run build
-
-      - name: Install Heroku CLI
-        run: npm install -g heroku
-
-      - name: Heroku login
-        run: heroku login -i
-
-      - name: Deploy to Heroku
-        run: |
-          git push heroku main
-
-      env:
-        HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
