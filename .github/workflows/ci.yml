@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Heroku CLI
+        run: npm install -g heroku
+
+      - name: Heroku login
+        run: heroku login -i
+
+      - name: Deploy to Heroku
+        run: |
+          git push heroku main
+
+      env:
+        HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
